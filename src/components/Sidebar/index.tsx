@@ -22,7 +22,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
   );
-
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
