@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as faceapi from 'face-api.js';
 
 const FaceRecognition = () => {
     const videoRef = useRef(null);
+    const canvasRef = useRef(null);
 
     useEffect(() => {
         const loadModels = async () => {
@@ -20,6 +21,7 @@ const FaceRecognition = () => {
             navigator.mediaDevices.getUserMedia({ video: {} })
                 .then(stream => {
                     videoRef.current.srcObject = stream;
+                    videoRef.current.play(); // Auto play video
                     recognizeFaces();
                 })
                 .catch(err => console.error(err));
@@ -32,34 +34,52 @@ const FaceRecognition = () => {
 
             videoRef.current.addEventListener('play', async () => {
                 console.log('Playing');
-                const canvas = faceapi.createCanvasFromMedia(videoRef.current);
-                document.body.append(canvas);
-
                 const displaySize = { width: videoRef.current.width, height: videoRef.current.height };
-                faceapi.matchDimensions(canvas, displaySize);
 
                 setInterval(async () => {
-                    const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
-                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
-                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-                    const results = resizedDetections.map((d) => faceMatcher.findBestMatch(d.descriptor));
-                    results.forEach((result, i) => {
-                        const box = resizedDetections[i].detection.box;
-                        const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
-                        drawBox.draw(canvas);
-                    });
-                }, 100);
+                    try {
+                        const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
+                        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                
+                        canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+                        faceapi.matchDimensions(canvasRef.current, displaySize);
+                        
+                        resizedDetections.forEach((detection) => {
+                            const { box } = detection.detection;
+                            const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
+                            drawBox.draw(canvasRef.current);
+                
+                            // Log the label of the detected face
+                            const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
+                            console.log('Detected face:', bestMatch.label);
+                        });
+                    } catch (error) {
+                        console.error('Error detecting faces:', error);
+                    }
+                }, 20);                
             });
         };
 
         const loadLabeledImages = async () => {
-            const labels = ['Prashant Kumar']; // for WebCam
+            const labels = ['Prashant Kumar', 'SimYi', 'Jim Rhodes']; // for WebCam
             return Promise.all(
                 labels.map(async (label) => {
                     const descriptions = [];
                     for (let i = 1; i <= 2; i++) {
-                        const img = await faceapi.fetchImage(`../labeled_images/${label}/${i}.jpg`);
+                        let img;
+                        try {
+                            // Try fetching with .jpg extension
+                            img = await faceapi.fetchImage(`../labeled_images/${label}/${i}.jpg`);
+                        } catch (error) {
+                            try {
+                                // If fetching with .jpg fails, try fetching with .jpeg extension
+                                img = await faceapi.fetchImage(`../labeled_images/${label}/${i}.jpeg`);
+                            } catch (error) {
+                                // Handle error if fetching both extensions fails
+                                console.error(`Failed to fetch image for ${label} (${i}.jpg or ${i}.jpeg)`);
+                                continue; // Skip to the next image
+                            }
+                        }
                         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
                         console.log(label + i + JSON.stringify(detections));
                         descriptions.push(detections.descriptor);
@@ -69,7 +89,6 @@ const FaceRecognition = () => {
                 })
             );
         };
-
         loadModels();
 
         // Clean up function
@@ -84,16 +103,21 @@ const FaceRecognition = () => {
     }, []);
 
     return (
-        <div>
+        <div style={{ position: 'relative' }}>
             <video
                 ref={videoRef}
                 autoPlay
                 playsInline
                 muted
-                style={{ display: 'none' }} // Hide video element
+                style={{ width: '50%', height: '50%' }} // Set video dimensions
+            />
+            <canvas 
+                ref={canvasRef} 
+                style={{ position: 'absolute', top: 30, left: 400 }} 
             />
         </div>
     );
 };
 
 export default FaceRecognition;
+
