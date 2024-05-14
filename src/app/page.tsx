@@ -37,8 +37,7 @@ const SignIn: React.FC = () => {
               </Link>
 
               <p className="2xl:px-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                suspendisse.
+                One Stop security solution for your business.
               </p>
 
               <span className="mt-15 inline-block">

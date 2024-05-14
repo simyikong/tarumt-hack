@@ -1,0 +1,21 @@
+{
+    "customer_id": 2,
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "age": 28,
+    "address": {
+      "street": "456 Elm St",
+      "city": "Othertown",
+      "state": "NY",
+      "zip": "54321"
+    },
+    "orders": [
+      {
+        "order_id": 201,
+        "product": "Thingamabob",
+        "quantity": 3,
+        "price": 15.99
+      }
+    ]
+  }
+  
