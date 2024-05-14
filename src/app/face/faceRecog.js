@@ -34,34 +34,38 @@ const FaceRecognition = () => {
 
             videoRef.current.addEventListener('play', async () => {
                 console.log('Playing');
-                const displaySize = { width: videoRef.current.width, height: videoRef.current.height };
-
                 setInterval(async () => {
                     try {
-                        const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
-                        const resizedDetections = faceapi.resizeResults(detections, displaySize);
-                
-                        canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                        faceapi.matchDimensions(canvasRef.current, displaySize);
-                        
-                        resizedDetections.forEach((detection) => {
-                            const { box } = detection.detection;
-                            const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
-                            drawBox.draw(canvasRef.current);
-                
-                            // Log the label of the detected face
-                            const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
-                            console.log('Detected face:', bestMatch.label);
-                        });
+                        // Check if the video element has valid dimensions
+                        if (videoRef.current.videoWidth && videoRef.current.videoHeight) {
+                            const displaySize = { width: videoRef.current.videoWidth, height: videoRef.current.videoHeight };
+
+                            const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
+                            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+                            canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+                            faceapi.matchDimensions(canvasRef.current, displaySize);
+
+                            resizedDetections.forEach((detection) => {
+                                const { box } = detection.detection;
+                                const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
+                                drawBox.draw(canvasRef.current);
+
+                                // Log the label of the detected face
+                                const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
+                                console.log('Detected face:', bestMatch.label);
+                            });
+                        }
                     } catch (error) {
                         console.error('Error detecting faces:', error);
                     }
-                }, 20);                
+                }, 20);
             });
         };
 
+
         const loadLabeledImages = async () => {
-            const labels = ['Prashant Kumar', 'SimYi', 'Jim Rhodes']; // for WebCam
+            const labels = ['ZiXiang', 'SimYi']; // for WebCam
             return Promise.all(
                 labels.map(async (label) => {
                     const descriptions = [];
@@ -111,9 +115,9 @@ const FaceRecognition = () => {
                 muted
                 style={{ width: '50%', height: '50%' }} // Set video dimensions
             />
-            <canvas 
-                ref={canvasRef} 
-                style={{ position: 'absolute', top: 30, left: 400 }} 
+            <canvas
+                ref={canvasRef}
+                style={{ position: 'absolute', top: 30, left: 400 }}
             />
         </div>
     );
