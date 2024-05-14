@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 
 const FaceRecognition = () => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+    const [detections, setDetections] = useState([]);
 
     useEffect(() => {
         const loadModels = async () => {
@@ -22,46 +23,45 @@ const FaceRecognition = () => {
                 .then(stream => {
                     videoRef.current.srcObject = stream;
                     videoRef.current.play(); // Auto play video
-                    recognizeFaces();
+                    recognizeFaces(); // Start recognizing faces immediately
                 })
                 .catch(err => console.error(err));
         };
-
+        
         const recognizeFaces = async () => {
             const labeledDescriptors = await loadLabeledImages();
             console.log(labeledDescriptors);
             const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.7);
+            console.log("SIMILAR: "+ faceMatcher.findBestMatch);
+            console.log("SIMILAR: "+ faceMatcher.labeledDescriptors);
+            console.log("SIMILAR: "+ faceMatcher.matchDescriptor);
 
             videoRef.current.addEventListener('play', async () => {
                 console.log('Playing');
-                const displaySize = { width: videoRef.current.width, height: videoRef.current.height };
+                const displaySize = { width: videoRef.current.videoWidth, height: videoRef.current.videoHeight };
+                faceapi.matchDimensions(canvasRef.current, displaySize);
 
                 setInterval(async () => {
-                    try {
-                        const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
-                        const resizedDetections = faceapi.resizeResults(detections, displaySize);
-                
-                        canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                        faceapi.matchDimensions(canvasRef.current, displaySize);
-                        
-                        resizedDetections.forEach((detection) => {
-                            const { box } = detection.detection;
-                            const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
-                            drawBox.draw(canvasRef.current);
-                
-                            // Log the label of the detected face
-                            const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
-                            console.log('Detected face:', bestMatch.label);
-                        });
-                    } catch (error) {
-                        console.error('Error detecting faces:', error);
-                    }
-                }, 20);                
-            });
+                    const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                    setDetections(resizedDetections);
+
+                    canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+                    resizedDetections.forEach((detection) => {
+                        const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
+                        console.log("FOUND : " + bestMatch.label);
+                        const box = detection.detection.box;
+                        const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
+                        drawBox.draw(canvasRef.current);
+                    });
+                }, 100);
+            });          
         };
+        
 
         const loadLabeledImages = async () => {
-            const labels = ['Prashant Kumar', 'SimYi', 'Jim Rhodes']; // for WebCam
+            const labels = ['SimYi']; // for WebCam
             return Promise.all(
                 labels.map(async (label) => {
                     const descriptions = [];
