@@ -89,6 +89,7 @@ const ChartOne = () => {
               onChange={(e) => setNewYear(e.target.value)}
               className="shadow-md rounded-md px-3 py-2 w-full mr-2"
             />
+            
             <input
               type="number"
               placeholder="Amount"
