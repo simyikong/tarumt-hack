@@ -1,10 +1,12 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import * as faceapi from 'face-api.js';
 
 const FaceRecognition = () => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+    const [detectedPerson, setDetectedPerson] = useState(null);
+
 
     useEffect(() => {
         const loadModels = async () => {
@@ -43,17 +45,26 @@ const FaceRecognition = () => {
                             const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
                             const resizedDetections = faceapi.resizeResults(detections, displaySize);
 
+                            setDetections(resizedDetections);
                             canvasRef.current.getContext('2d').clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
                             faceapi.matchDimensions(canvasRef.current, displaySize);
 
                             resizedDetections.forEach((detection) => {
                                 const { box } = detection.detection;
-                                const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
-                                drawBox.draw(canvasRef.current);
+                                // const drawBox = new faceapi.draw.DrawBox(box, { label: 'Face' });
+                                // drawBox.draw(canvasRef.current);
 
                                 // Log the label of the detected face
                                 const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
                                 console.log('Detected face:', bestMatch.label);
+
+                                if (resizedDetections.length > 0) {
+                                    const bestMatch = faceMatcher.findBestMatch(resizedDetections[0].descriptor);
+                                    setDetectedPerson(bestMatch.label);
+                                } else {
+                                    setDetectedPerson(null);
+                                }
+
                             });
                         }
                     } catch (error) {
@@ -106,6 +117,7 @@ const FaceRecognition = () => {
         };
     }, []);
 
+
     return (
         <div style={{ position: 'relative' }}>
             <video
@@ -115,10 +127,26 @@ const FaceRecognition = () => {
                 muted
                 style={{ width: '50%', height: '50%' }} // Set video dimensions
             />
-            <canvas
+            {/* <canvas
                 ref={canvasRef}
                 style={{ position: 'absolute', top: 30, left: 400 }}
-            />
+            /> */}
+            {detectedPerson && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '10px',
+                        backgroundColor: '#ffffff',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+                        zIndex: '999',
+                    }}
+                >
+                    Detected Person: {detectedPerson}
+                </div>
+            )}
         </div>
     );
 };
