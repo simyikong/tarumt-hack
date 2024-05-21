@@ -1,6 +1,4 @@
-import { ApexOptions } from "apexcharts";
-import React, { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+import { useState } from "react";
 
 const ChartOne = () => {
   const [revenueData, setRevenueData] = useState([
@@ -56,55 +54,58 @@ const ChartOne = () => {
             </button>
           </div>
         </div>
-
-
       </div>
-      
-      <div className="flex justify-center">
-            <div className="bg-gray-200 p-4 rounded-lg w-96">
-                <h2 className="text-2xl font-bold mb-4">Total Revenue</h2>
-                <table className="w-full border rounded">
-                    <thead className="bg-gray-300">
-                        <tr>
-                            <th className="py-2 border">Year</th>
-                            <th className="py-2 border">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {revenueData.map((data) => (
-                            <tr key={data.id} className="hover:bg-green-200">
-                                <td className="py-2 border">{data.year}</td>
-                                <td className="py-2 border">${data.amount}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            <div className="bg-gray-200 p-4 rounded-lg ml-4 w-48">
-                <h2 className="text-lg font-bold mb-2">Add Revenue</h2>
-                <div className="flex flex-col space-y-2">
-                    <input
-                        type="number"
-                        placeholder="Year"
-                        value={newYear}
-                        onChange={(e) => setNewYear(e.target.value)}
-                        className="p-2 border rounded"
-                    />
-                    <input
-                        type="number"
-                        placeholder="Amount"
-                        value={newAmount}
-                        onChange={(e) => setNewAmount(e.target.value)}
-                        className="p-2 border rounded"
-                    />
-                    <button onClick={addRevenue} className="bg-blue-500 text-white px-4 py-2 rounded">
-                        Add
-                    </button>
-                </div>
-            </div>
+
+      <br />
+      {/* <div className="relative overflow-x-auto shadow-md sm:rounded-lg"> */}
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                Year
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {revenueData.map((data) => (
+              <tr key={data.id} className="hover:bg-green-200">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">{data.year}</td>
+                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">${data.amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="bg-white rounded shadow-md p-6 mb-6 flex-1">
+          <h2 className="text-lg font-bold mb-2">Add Revenue</h2>
+          <div className="flex  mb-2">
+            <input
+              type="number"
+              placeholder="Year"
+              value={newYear}
+              onChange={(e) => setNewYear(e.target.value)}
+              className="shadow-md rounded-md px-3 py-2 w-full mr-2"
+            />
+            
+            <input
+              type="number"
+              placeholder="Amount"
+              value={newAmount}
+              onChange={(e) => setNewAmount(e.target.value)}
+              className="shadow-md rounded-md px-3 py-2 w-full mr-2"
+            />
+            <button onClick={addRevenue} className="bg-green-500 text-white px-4 py-2 rounded">
+              Add
+            </button>
+          </div>
         </div>
+      {/* </div> */}
     </div>
   );
 };
 
 export default ChartOne;
+

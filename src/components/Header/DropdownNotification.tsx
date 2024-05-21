@@ -86,11 +86,10 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  Edit your information in a swipe
+                <span className="text-red dark:text-white bold font-bold">
+                  User Qile
                 </span>{" "}
-                Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim.
+                modified data in database 2 at 12 May, 2025.
               </p>
 
               <p className="text-xs">12 May, 2025</p>
@@ -102,10 +101,10 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  It is a long established fact
+                <span className="text-red dark:text-red font-bold">
+                Alert
                 </span>{" "}
-                that a reader will be distracted by the readable.
+                : A modification was made to database 1 at 24 Feb, 2025."
               </p>
 
               <p className="text-xs">24 Feb, 2025</p>
@@ -117,11 +116,10 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
+                <span className="text-red dark:text-red font-bold">
+                  Warning: 
                 </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
+                Unauthorized access attempt detected at 04 Jan, 2025.
               </p>
 
               <p className="text-xs">04 Jan, 2025</p>
@@ -133,11 +131,10 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
+                <span className="text-red dark:text-red font-bold">
+                Security Alert:
                 </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
+                Suspicious login attempt detected for Qile at 01 Dec, 2024.
               </p>
 
               <p className="text-xs">01 Dec, 2024</p>
