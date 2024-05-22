@@ -6,6 +6,18 @@ import "../../js/us-aea-en";
 
 const MapOne: React.FC = () => {
   useEffect(() => {
+    // Define the mock data for states
+    type StateData = {
+      [key: string]: { attack: number };
+    };
+
+    const stateData: StateData = {
+      "US-TX": { attack: 93 },
+      "US-CA": { attack: 85 },
+      "US-NY": { attack: 78 },
+      // Add more state data as needed
+    };
+
     const mapOne = new jsVectorMap({
       selector: "#mapOne",
       map: "us_aea_en",
@@ -17,7 +29,7 @@ const MapOne: React.FC = () => {
         },
         hover: {
           fillOpacity: 1,
-          fill: "#3056D3",
+          fill: "#FF0000", // Red color on hover
         },
       },
       regionLabelStyle: {
@@ -34,7 +46,8 @@ const MapOne: React.FC = () => {
       labels: {
         regions: {
           render(code: string) {
-            return code.split("-")[1];
+            const state = stateData[code];
+            return state ? `Attack: ${state.attack}` : code.split("-")[1];
           },
         },
       },
