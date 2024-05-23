@@ -16,29 +16,46 @@ const TransactionTable: React.FC<{ searchQuery: string }> = ({ searchQuery }) =>
   );
 
   return (
-    <div>
-      <h2>Transaction Table</h2>
-      <table>
-        <thead>
+    <div className="relative overflow-x-auto  sm:rouned-lg bg-white">
+      <h2 className="text-lg font-bold mb-2 px-6 py-3">Transaction Table</h2>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
           <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Description</th>
+            <th scope="col" className="px-6 py-3">
+              ID
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Date
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Amount
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Description
+            </th>
           </tr>
         </thead>
         <tbody>
           {filteredTransactions.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.id}</td>
-              <td>{transaction.date}</td>
-              <td>{transaction.amount}</td>
-              <td>{transaction.description}</td>
+            <tr key={transaction.id} className="hover:bg-green-200">
+              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                {transaction.id}
+              </td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                {transaction.date}
+              </td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                {transaction.amount}
+              </td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                {transaction.description}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+
   );
 };
 
