@@ -24,3 +24,4 @@ const FaceRecognitionPage: React.FC = () => {
 };
 
 export default FaceRecognitionPage;
+
