@@ -18,35 +18,36 @@ const EmployeeTable: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
   );
 
   return (
-    <div>
-      <h2>Employee Table</h2>
-      <table>
-        <thead>
+    <div className="relative overflow-x-auto sm:rounded-lg bg-white">
+      <h2 className="text-lg font-bold mb-2 px-6 py-3">Employee Table</h2>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Department</th>
-            <th>Age</th>
-            <th>Email</th>
-            <th>Address</th>
+            <th scope="col" className="px-6 py-3">ID</th>
+            <th scope="col" className="px-6 py-3">Name</th>
+            <th scope="col" className="px-6 py-3">Position</th>
+            <th scope="col" className="px-6 py-3">Department</th>
+            <th scope="col" className="px-6 py-3">Age</th>
+            <th scope="col" className="px-6 py-3">Email</th>
+            <th scope="col" className="px-6 py-3">Address</th>
           </tr>
         </thead>
         <tbody>
           {filteredEmployees.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.id}</td>
-              <td>{employee.name}</td>
-              <td>{employee.position}</td>
-              <td>{employee.department}</td>
-              <td>{employee.age}</td>
-              <td>{employee.email}</td>
-              <td>{employee.address}</td>
+            <tr key={employee.id} className="hover:bg-green-200">
+              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">{employee.id}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.name}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.position}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.department}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.age}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.email}</td>
+              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{employee.address}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+
   );
 };
 
