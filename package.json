@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
     "apexcharts": "^3.45.2",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "face-api.js": "^0.22.2",
     "flatpickr": "^4.6.13",
