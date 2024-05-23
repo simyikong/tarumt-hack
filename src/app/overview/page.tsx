@@ -1,12 +1,19 @@
-import React from 'react';
+import Database from "@/components/Dashboard/Database";
+import { Metadata } from "next";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
-const Overview: React.FC = () => {
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold">Overview Page</h1>
-      <p>Database Overview...</p>
-    </div>
-  );
+export const metadata: Metadata = {
+  title:
+    "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
+  description: "This is Next.js Home for TailAdmin Dashboard Template",
 };
 
-export default Overview;
+export default function overview() {
+  return (
+    <>
+      <DefaultLayout>
+        <Database />
+      </DefaultLayout>
+    </>
+  );
+}
