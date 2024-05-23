@@ -1,0 +1,1 @@
+import Chatbot from "@/components/Dashboard/Chatbot";

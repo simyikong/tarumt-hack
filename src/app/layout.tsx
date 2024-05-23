@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import { Provider } from 'react-redux';
 import { store } from './store';
+import Chatbot from "@/components/Dashboard/Chatbot";
 
 export default function RootLayout({
   children,
@@ -28,6 +29,7 @@ export default function RootLayout({
       <Provider store={store}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
           {loading ? <Loader /> : children}
+          <Chatbot />
         </div>
         </Provider>
       </body>
