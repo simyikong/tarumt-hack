@@ -1,8 +1,11 @@
+"use client";
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate } from "react-router-dom";
-import { getActiveTab, getAuthError, getRequest, getScreenshot, loginUser, setAuthError, setLoginEmail, setLoginPassword } from "../features/auth/authSlice"
-import { getFaces } from "../features/auth/facenetSlice";
-import { PictureControls } from "./PictureControls"
+import { getActiveTab, getAuthError, getRequest, getScreenshot, loginUser, setAuthError, setLoginEmail, setLoginPassword } from "../../features/auth/authSlice"
+import { getFaces } from "../../features/auth/facenetSlice";
+import { PictureControls } from "../../components/PictureControls"
+import './Camera.css';
+
 
 export const Login = ({enableInput}) => {
 

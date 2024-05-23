@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getCameraStatus, getScreenshot, setCameraStatus, setScreenshot, setIsFlashing, getActiveTab, setAuthError, getActiveSource, setActiveSource, setScreenshotFromURL, getURL, setURL } from "../features/auth/authSlice"

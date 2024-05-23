@@ -3,6 +3,7 @@ import axios from 'axios'
 import { GET_PROFILE_PIC } from '../../config/api'
 
 const initialState = {
+    user: null,
     status: null,
     statusCode: 0,
     picture: null
@@ -28,7 +29,13 @@ export const getProfilePicture = createAsyncThunk(
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {setUser(state, action) {
+        state.user = action.payload
+    },
+    clearUser(state) {
+        state.user = null
+    }
+},
     extraReducers: (builder) => {
         builder
         .addCase(getProfilePicture.pending, (state) => {
@@ -46,9 +53,11 @@ export const userSlice = createSlice({
     }
 })
 
+export const { setUser, clearUser } = userSlice.actions
+
+export const getUser = state => state.user.user
 export const getUserStatus = state => state.user.status
 export const getUserStatusCode = state => state.user.statusCode
 export const getPicture = state => state.user.picture
 
-export const {  } = userSlice.actions
 export default userSlice.reducer

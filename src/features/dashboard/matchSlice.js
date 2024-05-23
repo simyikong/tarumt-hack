@@ -75,6 +75,7 @@ export const matchSlice = createSlice({
 
 export const getPhotoA = state => state.match.photo_A
 export const getPhotoB = state => state.match.photo_B
+export const getPicture = (state) => state.user.profilePicture;
 
 export const { setActiveInput, setMatchImage, setMatchError, resetMatchState } = matchSlice.actions
 export default matchSlice.reducer

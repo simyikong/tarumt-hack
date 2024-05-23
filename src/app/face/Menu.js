@@ -29,16 +29,22 @@ export const Menu = () => {
 
     
     useEffect(() => {
-        dispatch(getProfilePicture({email:user.email,token:user.token})).then(payload => {
-            if (payload.meta.requestStatus === 'rejected') {
-                dispatch(setUser(null))
-                localStorage.removeItem('user')
-                setTimeout(() => {
-                    window.location.reload()
-                }, 5000)
-            }
-        })
-    },[dispatch, user.email, user.token])
+        if (user && user.email && user.token) {
+            dispatch(getProfilePicture({ email: user.email, token: user.token })).then(payload => {
+                if (payload.meta.requestStatus === 'rejected') {
+                    dispatch(setUser(null));
+                    localStorage.removeItem('user');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+                }
+            });
+        }
+    }, [dispatch, user]);
+
+    if (!user) {
+        return <div>Loading...</div>;
+    }
 
     return(
         <div className="row">
