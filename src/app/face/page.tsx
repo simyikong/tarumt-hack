@@ -1,6 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 import FaceRecognition from './faceRecog';
+import { Login } from './Login';
+// import '../../css/Camera.css';
 
 const FaceRecognitionPage: React.FC = () => {
     return (
@@ -13,7 +15,8 @@ const FaceRecognitionPage: React.FC = () => {
 
             <main>
                 <h1>Face Recognition Page</h1>
-                <FaceRecognition />
+                {/* <FaceRecognition /> */}
+                <Login enableInput={true} />
             </main>
 
             <footer>
@@ -24,3 +27,4 @@ const FaceRecognitionPage: React.FC = () => {
 };
 
 export default FaceRecognitionPage;
+
